@@ -1,0 +1,58 @@
+server:
+  port: 9000
+spring:
+  datasource:
+    username: root
+    password: 445221
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://121.196.223.21:3306/employee_dev?serverTimezone=GMT%2B8
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    filters: stat,wall
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  thymeleaf:
+    cache: false
+  redis:
+    host: 121.196.223.21
+    port: 6379
+    password: 445221
+
+mybatis:
+  mapper-locations: classpath*:mybatis/mapper/*Mapper.xml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+swagger:
+  api:
+    package: cn.edu.scau.employee.web.controller
+
+
+
+shiro:
+  login-url: "/user/login"
+  logout-url: "/user/logout"
+  index-url: "/"
+  all-url: "/**"
+  webjars-url: "/webjars/**"
+  swagger-ui-url: "/swagger-ui.html"
+  swagger-resource-url: "/swagger-resources/**"
+  api-docs-url: "/v2/api-docs"
+  authc-token: "authcToken"
+  anon: "anon"
+  iteration: 1024
+  algorithm: "md5"
