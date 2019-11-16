@@ -2,12 +2,12 @@ package cn.edu.scau.employee.web.controller;
 
 import cn.edu.scau.employee.common.entity.dto.UserDto;
 import cn.edu.scau.employee.common.result.CommonResult;
-import cn.edu.scau.employee.common.result.RespConstants;
 import cn.edu.scau.employee.dao.repository.TokenRepository;
 import cn.edu.scau.employee.interfaces.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,9 @@ public class UserController {
     @ApiOperation(value = "测试方法")
     @ApiImplicitParam(name = "employee-token",value = "用于登录认证的token",paramType = "header",dataType = "string")
     @RequestMapping(value = "/test",method = RequestMethod.GET)
+    @RequiresPermissions(value = {"user:select"})
     public CommonResult test(){
         return CommonResult.success();
     }
+
 }

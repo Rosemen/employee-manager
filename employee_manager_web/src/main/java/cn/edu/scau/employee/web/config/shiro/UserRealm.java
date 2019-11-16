@@ -1,7 +1,9 @@
 package cn.edu.scau.employee.web.config.shiro;
 
+import cn.edu.scau.employee.common.entity.Permission;
 import cn.edu.scau.employee.common.entity.User;
 import cn.edu.scau.employee.common.result.CommonResult;
+import cn.edu.scau.employee.interfaces.service.PermissionService;
 import cn.edu.scau.employee.interfaces.service.UserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -17,6 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * 自定义realm: 从数据库获取相关信息
  *
@@ -30,11 +35,17 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PermissionService permissionService;
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String username = (String) principalCollection.getPrimaryPrincipal();
-        logger.info("===========当前授权用户:" + username + "============");
+        User user = (User) principalCollection.getPrimaryPrincipal();
+        logger.info("===========当前授权用户:" + user.getUsername() + "============");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        List<Permission> permissions = permissionService.findByRoleId(user.getRoleId());
+        authorizationInfo.addStringPermissions(permissions.stream().
+                map(permission -> permission.getPermissionCode()).collect(Collectors.toList()));
         return authorizationInfo;
     }
 

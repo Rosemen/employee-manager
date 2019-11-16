@@ -51,4 +51,9 @@ public class RespConstants {
      * 响应类型
      */
     public static final String CONTENT_TYPE = "application/json";
+
+    /**
+     * 没有权限
+     */
+    public static final String NO_PERMISSION = "没有权限访问";
 }

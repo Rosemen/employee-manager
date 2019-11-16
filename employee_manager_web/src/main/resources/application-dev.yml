@@ -27,6 +27,8 @@ spring:
     host: 121.196.223.21
     port: 6379
     password: 445221
+  aop:
+    auto: true
 
 mybatis:
   mapper-locations: classpath*:mybatis/mapper/*Mapper.xml
@@ -40,7 +42,6 @@ management:
 swagger:
   api:
     package: cn.edu.scau.employee.web.controller
-
 
 
 shiro:
