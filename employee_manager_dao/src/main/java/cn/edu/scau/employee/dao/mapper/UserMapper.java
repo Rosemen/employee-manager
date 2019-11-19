@@ -2,6 +2,8 @@ package cn.edu.scau.employee.dao.mapper;
 
 import cn.edu.scau.employee.common.entity.User;
 
+import java.util.List;
+
 /**
  * 用户数据库接口
  *
@@ -48,5 +50,12 @@ public interface UserMapper {
      * @return
      */
     User selectByUsername(String username);
+
+    /**
+     * 查询所有
+     *
+     * @return
+     */
+    List<User> selectAll();
 
 }

@@ -3,6 +3,9 @@ package cn.edu.scau.employee.interfaces.service;
 import cn.edu.scau.employee.common.entity.dto.UserDto;
 import cn.edu.scau.employee.common.result.CommonResult;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 /**
  * 用户业务接口
  *
@@ -33,4 +36,20 @@ public interface UserService {
      * @return
      */
     CommonResult findByUserName(String username);
+
+    /**
+     * 导入用户excel文件
+     *
+     * @param bytes
+     * @return
+     */
+    CommonResult importExcel(byte[] bytes);
+
+    /**
+     * 导出用户excel文件
+     *
+     * @param fileName
+     * @return
+     */
+    CommonResult exportExcel(String fileName) throws Exception;
 }

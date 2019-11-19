@@ -55,5 +55,3 @@ shiro:
   api-docs-url: "/v2/api-docs"
   authc-token: "authcToken"
   anon: "anon"
-  iteration: 1024
-  algorithm: "md5"

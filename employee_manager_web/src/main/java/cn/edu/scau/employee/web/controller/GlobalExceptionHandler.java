@@ -33,4 +33,10 @@ public class GlobalExceptionHandler {
         logger.error(RespConstants.NO_PERMISSION,ex);
         return CommonResult.error(RespConstants.FORBIDDEN,RespConstants.NO_PERMISSION);
     }
+
+    @ExceptionHandler(value = {Exception.class})
+    public CommonResult errorHandler(Exception ex){
+        logger.error(RespConstants.ERROR_MSG,ex);
+        return CommonResult.error(RespConstants.ERROR_MSG);
+    }
 }

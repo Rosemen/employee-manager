@@ -4,6 +4,7 @@ import cn.edu.scau.employee.common.entity.dto.UserDto;
 import cn.edu.scau.employee.common.result.CommonResult;
 import cn.edu.scau.employee.dao.repository.TokenRepository;
 import cn.edu.scau.employee.interfaces.service.UserService;
+import cn.edu.scau.employee.web.config.shiro.ShiroProperties;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -11,12 +12,13 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 /**
  * 用户Controller: 处理用户的基本业务
@@ -53,6 +55,22 @@ public class UserController {
     @RequiresPermissions(value = {"user:select"})
     public CommonResult test(){
         return CommonResult.success();
+    }
+
+    @ApiOperation(value = "导入用户信息")
+    @ApiImplicitParam(name = "employee-token",value = "用于登录认证的token",paramType = "header",dataType = "string")
+    @RequestMapping(value = "/importExcel",method = RequestMethod.POST)
+    @RequiresPermissions(value = {"user:add"})
+    public CommonResult upload(@RequestParam(value = "file") MultipartFile file) throws Exception {
+        return userService.importExcel(file.getBytes());
+    }
+
+    @ApiOperation(value = "导出用户信息")
+    @ApiImplicitParam(name = "employee-token",value = "用于登录认证的token",paramType = "header",dataType = "string")
+    @RequestMapping(value = "/exportExcel",method = RequestMethod.POST)
+    @RequiresPermissions(value = {"user:add"})
+    public CommonResult download(@RequestParam(value = "fileName")String fileName) throws Exception {
+        return userService.exportExcel(fileName);
     }
 
 }

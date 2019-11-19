@@ -30,8 +30,4 @@ public class ShiroProperties {
 
     private String anon;
 
-    private int iteration;
-
-    private String algorithm;
-
 }

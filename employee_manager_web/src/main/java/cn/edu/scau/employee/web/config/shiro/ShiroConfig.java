@@ -1,5 +1,6 @@
 package cn.edu.scau.employee.web.config.shiro;
 
+import cn.edu.scau.employee.common.utils.EncryptUtil;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -98,8 +99,8 @@ public class ShiroConfig {
     public CredentialsMatcher credentialsMatcher() {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         //设置hash算法与hash次数
-        hashedCredentialsMatcher.setHashAlgorithmName(properties().getAlgorithm());
-        hashedCredentialsMatcher.setHashIterations(properties().getIteration());
+        hashedCredentialsMatcher.setHashAlgorithmName(EncryptUtil.ALGORITHM);
+        hashedCredentialsMatcher.setHashIterations(EncryptUtil.INTERATION);
         //设置加密方式,true为Hex,false为Base64
         hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
         return hashedCredentialsMatcher;

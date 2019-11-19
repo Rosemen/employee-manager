@@ -36,6 +36,12 @@
     where username = #{username,jdbcType=VARCHAR}
   </select>
 
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+  </select>
+
   <delete id="deleteById" parameterType="java.lang.Integer">
     delete from user
     where id = #{id,jdbcType=INTEGER}
