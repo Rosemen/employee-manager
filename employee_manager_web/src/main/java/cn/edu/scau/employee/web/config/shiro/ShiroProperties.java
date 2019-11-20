@@ -30,4 +30,6 @@ public class ShiroProperties {
 
     private String anon;
 
+    private String permission;
+
 }

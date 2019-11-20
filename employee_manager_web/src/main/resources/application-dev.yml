@@ -54,4 +54,5 @@ shiro:
   swagger-resource-url: "/swagger-resources/**"
   api-docs-url: "/v2/api-docs"
   authc-token: "authcToken"
+  permission: "permisssion"
   anon: "anon"

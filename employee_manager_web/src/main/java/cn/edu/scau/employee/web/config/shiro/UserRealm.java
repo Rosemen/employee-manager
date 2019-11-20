@@ -1,15 +1,16 @@
 package cn.edu.scau.employee.web.config.shiro;
 
-import cn.edu.scau.employee.common.entity.Permission;
+import cn.edu.scau.employee.common.entity.Resource;
 import cn.edu.scau.employee.common.entity.User;
 import cn.edu.scau.employee.common.result.CommonResult;
-import cn.edu.scau.employee.interfaces.service.PermissionService;
+import cn.edu.scau.employee.interfaces.service.ResourceService;
 import cn.edu.scau.employee.interfaces.service.UserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -19,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,16 +38,17 @@ public class UserRealm extends AuthorizingRealm {
     private UserService userService;
 
     @Autowired
-    private PermissionService permissionService;
+    private ResourceService resourceService;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         User user = (User) principalCollection.getPrimaryPrincipal();
         logger.info("===========当前授权用户:" + user.getUsername() + "============");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        List<Permission> permissions = permissionService.findByRoleId(user.getRoleId());
-        authorizationInfo.addStringPermissions(permissions.stream().
-                map(permission -> permission.getPermissionCode()).collect(Collectors.toList()));
+        List<Resource> resources = resourceService.findByRoleId(user.getRoleId());
+        List<String> permissions = resources.stream().map(resource -> resource.getUrl())
+                         .collect(Collectors.toList());
+        authorizationInfo.addStringPermissions(permissions);
         return authorizationInfo;
     }
 
@@ -66,5 +69,20 @@ public class UserRealm extends AuthorizingRealm {
                 getName()
         );
         return authenticationInfo;
+    }
+
+    @Override
+    public boolean isPermitted(PrincipalCollection principals, Permission permission) {
+        AuthorizationInfo info = getAuthorizationInfo(principals);
+        Collection<Permission> permissions = getPermissions(info);
+        if (permissions.isEmpty()){
+            return false;
+        }
+        for (Permission perm: permissions){
+            if (perm.implies(permission)){
+                return true;
+            }
+        }
+        return false;
     }
 }

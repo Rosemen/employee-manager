@@ -3,7 +3,6 @@ package cn.edu.scau.employee.web.config.shiro;
 import cn.edu.scau.employee.common.utils.EncryptUtil;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -48,18 +47,20 @@ public class ShiroConfig {
         ShiroProperties properties = properties();
         Map<String, Filter> filterMap = new LinkedHashMap<>();
         //使用自定义filter,验证不通过返回json数据
-        filterMap.put(properties.getAuthcToken(),new AjaxPermissionsAuthorizationFilter());
+        filterMap.put(properties.getAuthcToken(), new LoginCheckFilter());
+        filterMap.put(properties.getPermission(), new PermissionCheckFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
         //设置shiro过滤链
-        Map<String,String> filterChainDefinitionMap = new LinkedHashMap<>();
-        filterChainDefinitionMap.put(properties.getIndexUrl(),properties.getAnon());
-        filterChainDefinitionMap.put(properties.getLoginUrl(),properties.getAnon());
-        filterChainDefinitionMap.put(properties.getLogoutUrl(),properties.getAuthcToken());
-        filterChainDefinitionMap.put(properties.getSwaggerUiUrl(),properties.getAnon());
-        filterChainDefinitionMap.put(properties.getSwaggerResourceUrl(),properties.getAnon());
-        filterChainDefinitionMap.put(properties.getWebjarsUrl(),properties.getAnon());
-        filterChainDefinitionMap.put(properties.getApiDocsUrl(),properties.getAnon());
-        filterChainDefinitionMap.put(properties.getAllUrl(),properties.getAuthcToken());
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        filterChainDefinitionMap.put(properties.getIndexUrl(), properties.getAnon());
+        filterChainDefinitionMap.put(properties.getLoginUrl(), properties.getAnon());
+        filterChainDefinitionMap.put(properties.getLogoutUrl(), properties.getAuthcToken());
+        filterChainDefinitionMap.put(properties.getSwaggerUiUrl(), properties.getAnon());
+        filterChainDefinitionMap.put(properties.getSwaggerResourceUrl(), properties.getAnon());
+        filterChainDefinitionMap.put(properties.getWebjarsUrl(), properties.getAnon());
+        filterChainDefinitionMap.put(properties.getApiDocsUrl(), properties.getAnon());
+        filterChainDefinitionMap.put(properties.getAllUrl(), properties.getAuthcToken() +
+                                             "," + properties.getPermission());
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
@@ -87,6 +88,7 @@ public class ShiroConfig {
     public UserRealm userRealm(CredentialsMatcher credentialsMatcher) {
         UserRealm userRealm = new UserRealm();
         userRealm.setCredentialsMatcher(credentialsMatcher);
+        userRealm.setPermissionResolver(new ShiroPermissionResolver());
         return userRealm;
     }
 

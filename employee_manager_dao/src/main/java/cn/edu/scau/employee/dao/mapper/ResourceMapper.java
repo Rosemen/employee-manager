@@ -1,24 +1,24 @@
 package cn.edu.scau.employee.dao.mapper;
 
-import cn.edu.scau.employee.common.entity.Permission;
+import cn.edu.scau.employee.common.entity.Resource;
 
 /**
- * 权限Mapper
+ * 资源Mapper
  *
  * @author chen
- * @date 2019/11/16
+ * @date 2019/11/20
  */
-public interface PermissionMapper {
+public interface ResourceMapper {
     /**
-     * 添加权限
+     * 添加资源
      *
      * @param record
      * @return
      */
-    int insert(Permission record);
+    int insert(Resource record);
 
     /**
-     * 删除权限
+     * 删除资源
      *
      * @param id
      * @return
@@ -26,18 +26,18 @@ public interface PermissionMapper {
     int deleteById(Integer id);
 
     /**
-     * 修改权限
+     * 修改资源
      *
      * @param record
      * @return
      */
-    int updateById(Permission record);
+    int updateById(Resource record);
 
     /**
-     * 查询权限
+     * 查询资源
      *
      * @param id
      * @return
      */
-    Permission selectById(Integer id);
+    Resource selectById(Integer id);
 }

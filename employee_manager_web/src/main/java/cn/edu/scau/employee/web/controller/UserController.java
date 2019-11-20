@@ -52,7 +52,6 @@ public class UserController {
     @ApiOperation(value = "测试方法")
     @ApiImplicitParam(name = "employee-token",value = "用于登录认证的token",paramType = "header",dataType = "string")
     @RequestMapping(value = "/test",method = RequestMethod.GET)
-    @RequiresPermissions(value = {"user:select"})
     public CommonResult test(){
         return CommonResult.success();
     }
@@ -60,7 +59,6 @@ public class UserController {
     @ApiOperation(value = "导入用户信息")
     @ApiImplicitParam(name = "employee-token",value = "用于登录认证的token",paramType = "header",dataType = "string")
     @RequestMapping(value = "/importExcel",method = RequestMethod.POST)
-    @RequiresPermissions(value = {"user:add"})
     public CommonResult upload(@RequestParam(value = "file") MultipartFile file) throws Exception {
         return userService.importExcel(file.getBytes());
     }
@@ -68,7 +66,6 @@ public class UserController {
     @ApiOperation(value = "导出用户信息")
     @ApiImplicitParam(name = "employee-token",value = "用于登录认证的token",paramType = "header",dataType = "string")
     @RequestMapping(value = "/exportExcel",method = RequestMethod.POST)
-    @RequiresPermissions(value = {"user:add"})
     public CommonResult download(@RequestParam(value = "fileName")String fileName) throws Exception {
         return userService.exportExcel(fileName);
     }

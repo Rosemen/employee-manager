@@ -22,7 +22,7 @@ import java.io.PrintWriter;
  * @author chen.jiale
  * @date 2019/11/9 17:03
  */
-public class AjaxPermissionsAuthorizationFilter extends FormAuthenticationFilter {
+public class LoginCheckFilter extends FormAuthenticationFilter {
 
     /**
      * 判断请求是否已经登录过，默认shiro会帮我们处理，这里使用自定义token来处理
