@@ -19,6 +19,12 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
+  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from role
+  </select>
+
   <delete id="deleteById" parameterType="java.lang.Integer">
     delete from role
     where id = #{id,jdbcType=INTEGER}

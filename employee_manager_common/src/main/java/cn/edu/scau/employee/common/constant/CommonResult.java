@@ -1,4 +1,4 @@
-package cn.edu.scau.employee.common.result;
+package cn.edu.scau.employee.common.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +33,12 @@ public class CommonResult {
         CommonResult result = new CommonResult();
         result.setStatus(RespConstants.SUCCESS);
         result.setMsg(RespConstants.SUCCESS_MSG);
+        return result;
+    }
+
+    public static CommonResult success(Object data) {
+        CommonResult result = success();
+        result.setData(data);
         return result;
     }
 

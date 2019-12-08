@@ -2,6 +2,8 @@ package cn.edu.scau.employee.dao.mapper;
 
 import cn.edu.scau.employee.common.entity.Role;
 
+import java.util.List;
+
 /**
  * 角色Mapper
  *
@@ -40,4 +42,11 @@ public interface RoleMapper {
      * @return
      */
     Role selectById(Integer id);
+
+    /**
+     * 获取所有角色信息
+     *
+     * @return
+     */
+    List<Role> selectAll();
 }

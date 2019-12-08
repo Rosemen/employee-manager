@@ -1,7 +1,7 @@
 package cn.edu.scau.employee.web.controller;
 
-import cn.edu.scau.employee.common.result.CommonResult;
-import cn.edu.scau.employee.common.result.RespConstants;
+import cn.edu.scau.employee.common.constant.CommonResult;
+import cn.edu.scau.employee.common.constant.RespConstants;
 import org.apache.shiro.authc.CredentialsException;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;

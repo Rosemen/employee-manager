@@ -1,15 +1,16 @@
 package cn.edu.scau.employee.service.impl;
 
+import cn.edu.scau.employee.common.constant.Constants;
+import cn.edu.scau.employee.common.constant.PageCommonResult;
+import cn.edu.scau.employee.common.dto.*;
 import cn.edu.scau.employee.common.entity.User;
-import cn.edu.scau.employee.common.entity.dto.UserDto;
-import cn.edu.scau.employee.common.entity.dto.UserExcelDto;
-import cn.edu.scau.employee.common.entity.dto.UserResultDto;
-import cn.edu.scau.employee.common.result.CommonResult;
-import cn.edu.scau.employee.common.result.RespConstants;
+import cn.edu.scau.employee.common.constant.CommonResult;
+import cn.edu.scau.employee.common.constant.RespConstants;
 import cn.edu.scau.employee.common.utils.EncryptUtil;
 import cn.edu.scau.employee.common.utils.ExcelUtil;
 import cn.edu.scau.employee.common.utils.JsonUtil;
 import cn.edu.scau.employee.common.utils.TokenUtil;
+import cn.edu.scau.employee.dao.mapper.RoleMapper;
 import cn.edu.scau.employee.dao.mapper.UserMapper;
 import cn.edu.scau.employee.dao.repository.TokenRepository;
 import cn.edu.scau.employee.interfaces.service.UserService;
@@ -19,6 +20,8 @@ import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.util.DateUtils;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.metadata.WriteSheet;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -27,8 +30,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -40,6 +45,7 @@ import java.util.stream.Collectors;
  * @author chen.jiale
  * @date 2019/11/10 16:56
  */
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -49,6 +55,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TokenRepository tokenRepository;
+
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Override
     public CommonResult login(UserDto userDto) {
@@ -60,12 +69,9 @@ public class UserServiceImpl implements UserService {
         if (currentUser.isAuthenticated()) {
             //登录成功，生成并返回token
             User user = (User) currentUser.getPrincipal();
-            UserResultDto resultDto = new UserResultDto();
             String tokenStr = TokenUtil.generateToken(user.getUsername());
             tokenRepository.saveUser(tokenStr, JsonUtil.convertToJson(user));
-            resultDto.setToken(tokenStr);
-            BeanUtils.copyProperties(user, resultDto);
-            result.setData(resultDto);
+            result.setData(tokenStr);
         }
         return result;
     }
@@ -100,18 +106,69 @@ public class UserServiceImpl implements UserService {
         ExcelWriterBuilder writerBuilder = EasyExcel.write(new FileOutputStream(fileName), UserExcelDto.class);
         ExcelWriter excelWriter = writerBuilder.build();
         WriteSheet writeSheet = EasyExcel.writerSheet()
-                           .registerWriteHandler(TableStyleStrategy.getStrategy())
-                           .build();
+                .registerWriteHandler(TableStyleStrategy.getStrategy())
+                .build();
         List<UserExcelDto> userExcelDtos = userMapper.selectAll().stream().map(user -> {
             UserExcelDto userExcelDto = new UserExcelDto();
             BeanUtils.copyProperties(user, userExcelDto);
-            userExcelDto.setHiredate(DateUtils.format(user.getHiredate(),"yyyy-MM-dd"));
-            userExcelDto.setBirthday(DateUtils.format(user.getBirthday(),"yyyy-MM-dd"));
+            userExcelDto.setHiredate(DateUtils.format(user.getHiredate(), Constants.DATE_PATTERN_1));
+            userExcelDto.setBirthday(DateUtils.format(user.getBirthday(), Constants.DATE_PATTERN_1));
             return userExcelDto;
         }).collect(Collectors.toList());
         excelWriter.write(userExcelDtos, writeSheet);
         excelWriter.finish();
         return CommonResult.success();
+    }
+
+    @Override
+    public CommonResult add(UserAddDto userAddDto) {
+        logger.info("===========UserServiceImpl.add============");
+        User user = new User();
+        BeanUtils.copyProperties(userAddDto, user);
+        user.setPassword(EncryptUtil.getEncryptedPassword(user.getUsername()));
+        userMapper.insert(user);
+        return CommonResult.success();
+    }
+
+    @Override
+    public CommonResult update(Integer id, UserAddDto userAddDto) {
+        logger.info("===========UserServiceImpl.update============");
+        User user = new User();
+        user.setId(id);
+        BeanUtils.copyProperties(userAddDto, user);
+        userMapper.updateById(user);
+        return CommonResult.success();
+    }
+
+    @Override
+    public CommonResult delete(List<Integer> ids) {
+        logger.info("===========UserServiceImpl.delete============");
+        userMapper.delete(ids);
+        return CommonResult.success();
+    }
+
+    @Override
+    public CommonResult findByCondition(UserQueryDto userQueryDto) {
+        logger.info("===========UserServiceImpl.findByCondition============");
+        PageHelper.startPage(userQueryDto.getPageConstant().getCurrentPage(),
+                userQueryDto.getPageConstant().getPageSize());
+        List<User> users = userMapper.selectByCondition(userQueryDto);
+        List<UserResultDto> userResultDtos = new ArrayList<>();
+        for (User user : users) {
+            UserResultDto userResultDto = new UserResultDto();
+            BeanUtils.copyProperties(user, userResultDto);
+            userResultDto.setRole(roleMapper.selectById(user.getRoleId()).getName());
+            userResultDtos.add(userResultDto);
+        }
+        PageInfo<User> pageInfo = new PageInfo<>(users);
+        return PageCommonResult.success((int)pageInfo.getTotal(),userResultDtos);
+    }
+
+    @Override
+    public CommonResult findByToken(String token) {
+        String userInfo = tokenRepository.getUserInfoByToken(token);
+        User user = (User) JsonUtil.convertToObj(userInfo, User.class);
+        return CommonResult.success(user);
     }
 
     private Consumer<List<UserExcelDto>> batchInsert() {

@@ -1,4 +1,4 @@
-package cn.edu.scau.employee.common.entity.dto;
+package cn.edu.scau.employee.common.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,6 +7,8 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
+ * 用户响应Dto
+ *
  * @author chen.jiale
  * @date 2019/11/12 10:50
  */
@@ -18,15 +20,15 @@ public class UserResultDto  implements Serializable {
     @ApiModelProperty(value = "主键")
     private Integer id;
 
-    @ApiModelProperty(value = "用户名")
+    @ApiModelProperty(value = "工号")
     private String username;
-
-    @ApiModelProperty(value = "密码")
-    private String password;
-
-    @ApiModelProperty(value = "token")
-    private String token;
 
     @ApiModelProperty(value = "真实姓名")
     private String name;
+
+    @ApiModelProperty(value = "角色")
+    private String role;
+
+    @ApiModelProperty(value = "部门")
+    private String dept;
 }

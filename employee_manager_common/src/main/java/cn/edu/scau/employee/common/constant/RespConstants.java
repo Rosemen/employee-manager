@@ -1,4 +1,4 @@
-package cn.edu.scau.employee.common.result;
+package cn.edu.scau.employee.common.constant;
 
 /**
  * 响应常量类

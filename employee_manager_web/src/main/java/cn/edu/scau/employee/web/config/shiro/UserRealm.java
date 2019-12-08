@@ -2,7 +2,7 @@ package cn.edu.scau.employee.web.config.shiro;
 
 import cn.edu.scau.employee.common.entity.Resource;
 import cn.edu.scau.employee.common.entity.User;
-import cn.edu.scau.employee.common.result.CommonResult;
+import cn.edu.scau.employee.common.constant.CommonResult;
 import cn.edu.scau.employee.interfaces.service.ResourceService;
 import cn.edu.scau.employee.interfaces.service.UserService;
 import org.apache.shiro.authc.AuthenticationException;

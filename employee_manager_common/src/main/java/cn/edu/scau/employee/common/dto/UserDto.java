@@ -1,10 +1,11 @@
-package cn.edu.scau.employee.common.entity.dto;
+package cn.edu.scau.employee.common.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 服务层用户数据实体
@@ -22,5 +23,4 @@ public class UserDto implements Serializable {
 
     @ApiModelProperty(value = "密码")
     private String password;
-
 }

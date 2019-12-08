@@ -1,13 +1,11 @@
 package cn.edu.scau.employee.web.config.shiro;
 
-import cn.edu.scau.employee.common.result.CommonResult;
-import cn.edu.scau.employee.common.result.RespConstants;
-import cn.edu.scau.employee.common.utils.TokenUtil;
+import cn.edu.scau.employee.common.constant.CommonResult;
+import cn.edu.scau.employee.common.constant.RespConstants;
 import cn.edu.scau.employee.dao.repository.TokenRepository;
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletRequest;

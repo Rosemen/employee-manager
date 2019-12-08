@@ -24,4 +24,6 @@ public class Role implements Serializable {
     private Date updateDate;
 
     private String remark;
+
+
 }

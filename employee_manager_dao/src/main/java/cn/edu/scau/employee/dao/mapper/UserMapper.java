@@ -1,5 +1,6 @@
 package cn.edu.scau.employee.dao.mapper;
 
+import cn.edu.scau.employee.common.dto.UserQueryDto;
 import cn.edu.scau.employee.common.entity.User;
 
 import java.util.List;
@@ -26,6 +27,13 @@ public interface UserMapper {
      * @return
      */
     int deleteById(Integer id);
+
+    /**
+     * 批量删除用户
+     *
+     * @param ids
+     */
+    void delete(List<Integer> ids);
 
     /**
      * 更新用户
@@ -58,4 +66,11 @@ public interface UserMapper {
      */
     List<User> selectAll();
 
+    /**
+     * 条件查询
+     *
+     * @param userQueryDto
+     * @return
+     */
+    List<User> selectByCondition(UserQueryDto userQueryDto);
 }

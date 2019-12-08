@@ -1,6 +1,6 @@
-package cn.edu.scau.employee.common.entity.dto;
+package cn.edu.scau.employee.common.dto;
 
-import cn.edu.scau.employee.common.converter.GenderConverter;
+import cn.edu.scau.employee.common.constant.GenderConverter;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.format.DateTimeFormat;
@@ -8,7 +8,6 @@ import com.alibaba.excel.util.DateUtils;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 对应excel表数据的dto
