@@ -52,7 +52,7 @@ public class RoleController {
         return roleService.update(id,roleAddDto);
     }
 
-    @ApiOperation(value = "修改角色")
+    @ApiOperation(value = "测试方法")
     @ApiImplicitParam(name = "employee-token", value = "用于登录认证的token", paramType = "header", dataType = "string")
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public CommonResult test(){
