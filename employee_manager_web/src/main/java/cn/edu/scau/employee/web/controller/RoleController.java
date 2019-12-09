@@ -51,4 +51,11 @@ public class RoleController {
     public CommonResult update(@PathVariable("id")Integer id, @RequestBody RoleAddDto roleAddDto) {
         return roleService.update(id,roleAddDto);
     }
+
+    @ApiOperation(value = "修改角色")
+    @ApiImplicitParam(name = "employee-token", value = "用于登录认证的token", paramType = "header", dataType = "string")
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public CommonResult test(){
+        return CommonResult.success();
+    }
 }
