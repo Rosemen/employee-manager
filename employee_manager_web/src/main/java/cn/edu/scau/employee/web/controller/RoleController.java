@@ -19,6 +19,7 @@ import java.util.List;
  */
 @Api(description = "角色管理Controller")
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/role")
 public class RoleController {
     @Autowired
