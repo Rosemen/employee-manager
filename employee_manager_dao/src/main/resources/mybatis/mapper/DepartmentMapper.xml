@@ -4,6 +4,9 @@
     <resultMap id="BaseResultMap" type="cn.edu.scau.employee.common.entity.Department">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
     </resultMap>
     <sql id="Base_Column_List">
     id, name
@@ -27,6 +30,15 @@
             <if test="name != null">
                 name,
             </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -35,6 +47,15 @@
             <if test="name != null">
                 #{name,jdbcType=VARCHAR},
             </if>
+            <if test="createDate != null">
+                #{create_date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                #{update_date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR}
+            </if>
         </trim>
     </insert>
     <update id="updateById" parameterType="cn.edu.scau.employee.common.entity.Department">
@@ -42,6 +63,15 @@
         <set>
             <if test="name != null">
                 name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{create_date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{update_date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR}
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

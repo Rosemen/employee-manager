@@ -23,7 +23,9 @@ public class Resource implements Serializable {
 
     private Integer parentId;
 
-    private Date createTime;
+    private Date createDate;
+
+    private Date updateDate;
 
     private String remark;
 }

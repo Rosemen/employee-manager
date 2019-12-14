@@ -3,6 +3,7 @@ package cn.edu.scau.employee.common.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -16,4 +17,10 @@ public class Department implements Serializable {
     private Integer id;
 
     private String name;
+
+    private Date createDate;
+
+    private Date updateDate;
+
+    private String remark;
 }

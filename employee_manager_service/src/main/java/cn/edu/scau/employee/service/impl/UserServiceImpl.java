@@ -3,6 +3,7 @@ package cn.edu.scau.employee.service.impl;
 import cn.edu.scau.employee.common.constant.Constants;
 import cn.edu.scau.employee.common.constant.PageCommonResult;
 import cn.edu.scau.employee.common.dto.*;
+import cn.edu.scau.employee.common.entity.Role;
 import cn.edu.scau.employee.common.entity.User;
 import cn.edu.scau.employee.common.constant.CommonResult;
 import cn.edu.scau.employee.common.constant.RespConstants;
@@ -10,6 +11,7 @@ import cn.edu.scau.employee.common.utils.EncryptUtil;
 import cn.edu.scau.employee.common.utils.ExcelUtil;
 import cn.edu.scau.employee.common.utils.JsonUtil;
 import cn.edu.scau.employee.common.utils.TokenUtil;
+import cn.edu.scau.employee.dao.mapper.DepartmentMapper;
 import cn.edu.scau.employee.dao.mapper.RoleMapper;
 import cn.edu.scau.employee.dao.mapper.UserMapper;
 import cn.edu.scau.employee.dao.repository.TokenRepository;
@@ -58,6 +60,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleMapper roleMapper;
+
+    @Autowired
+    private DepartmentMapper departmentMapper;
 
     @Override
     public CommonResult login(UserDto userDto) {
@@ -161,13 +166,19 @@ public class UserServiceImpl implements UserService {
             userResultDtos.add(userResultDto);
         }
         PageInfo<User> pageInfo = new PageInfo<>(users);
-        return PageCommonResult.success((int)pageInfo.getTotal(),userResultDtos);
+        return PageCommonResult.success((int) pageInfo.getTotal(), userResultDtos);
     }
 
     @Override
     public CommonResult findByToken(String token) {
         String userInfo = tokenRepository.getUserInfoByToken(token);
+        UserResultDto userResultDto = new UserResultDto();
         User user = (User) JsonUtil.convertToObj(userInfo, User.class);
+        BeanUtils.copyProperties(user, userResultDto);
+        Role role = roleMapper.selectById(user.getRoleId());
+        if (null != role) {
+            userResultDto.setRole(role.getName());
+        }
         return CommonResult.success(user);
     }
 

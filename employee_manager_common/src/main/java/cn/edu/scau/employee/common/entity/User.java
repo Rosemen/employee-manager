@@ -35,11 +35,11 @@ public class User implements Serializable {
 
     private String address;
 
-    private String dept;
-
     private String photo;
 
     private String education;
+
+    private Integer deptId;
 
     private Integer roleId;
 }

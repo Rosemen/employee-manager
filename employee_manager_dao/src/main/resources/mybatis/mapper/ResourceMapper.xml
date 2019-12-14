@@ -6,11 +6,12 @@
     <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, menu_name, url, parent_id, create_time, remark
+    id, menu_name, url, parent_id, create_date, update_date, remark
   </sql>
 
   <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -40,8 +41,11 @@
       <if test="parentId != null">
         parent_id,
       </if>
-      <if test="createTime != null">
-        create_time,
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
       </if>
       <if test="remark != null">
         remark,
@@ -60,8 +64,11 @@
       <if test="parentId != null">
         #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -81,8 +88,11 @@
       <if test="parentId != null">
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},

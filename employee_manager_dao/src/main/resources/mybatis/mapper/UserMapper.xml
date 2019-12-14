@@ -7,19 +7,19 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="gender" jdbcType="INTEGER" property="gender" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="birthday" jdbcType="DATE" property="birthday" />
-    <result column="hiredate" jdbcType="DATE" property="hiredate" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="hiredate" jdbcType="TIMESTAMP" property="hiredate" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="dept" jdbcType="VARCHAR" property="dept" />
     <result column="photo" jdbcType="VARCHAR" property="photo" />
     <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
   </resultMap>
   <sql id="Base_Column_List">
     id, username, name, gender, password, birthday, hiredate, phone, email, address, 
-    dept, photo, education, role_id
+    photo, education, dept_id, role_id
   </sql>
 
   <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -102,14 +102,14 @@
       <if test="address != null">
         address,
       </if>
-      <if test="dept != null">
-        dept,
-      </if>
       <if test="photo != null">
         photo,
       </if>
       <if test="education != null">
         education,
+      </if>
+      <if test="deptId != null">
+        dept_id,
       </if>
       <if test="roleId != null">
         role_id,
@@ -132,10 +132,10 @@
         #{password,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null">
-        #{birthday,jdbcType=DATE},
+        #{birthday,jdbcType=TIMESTAMP},
       </if>
       <if test="hiredate != null">
-        #{hiredate,jdbcType=DATE},
+        #{hiredate,jdbcType=TIMESTAMP},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
@@ -146,14 +146,14 @@
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="dept != null">
-        #{dept,jdbcType=VARCHAR},
-      </if>
       <if test="photo != null">
         #{photo,jdbcType=VARCHAR},
       </if>
       <if test="education != null">
         #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=VARCHAR},
       </if>
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
@@ -177,10 +177,10 @@
         password = #{password,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null">
-        birthday = #{birthday,jdbcType=DATE},
+        birthday = #{birthday,jdbcType=TIMESTAMP},
       </if>
       <if test="hiredate != null">
-        hiredate = #{hiredate,jdbcType=DATE},
+        hiredate = #{hiredate,jdbcType=TIMESTAMP},
       </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
@@ -191,14 +191,14 @@
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="dept != null">
-        dept = #{dept,jdbcType=VARCHAR},
-      </if>
       <if test="photo != null">
         photo = #{photo,jdbcType=VARCHAR},
       </if>
       <if test="education != null">
         education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=VARCHAR},
       </if>
       <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},

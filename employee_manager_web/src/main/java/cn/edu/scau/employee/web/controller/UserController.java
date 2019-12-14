@@ -97,13 +97,15 @@ public class UserController {
         return userService.findByCondition(userQueryDto);
     }
 
-    @ApiOperation(value = "查询用户")
+    @ApiOperation(value = "根据token查询用户")
     @ApiImplicitParam(name = "employee-token",value = "用于登录认证的token",paramType = "header",dataType = "string")
     @RequestMapping(value = "/query",method = RequestMethod.GET)
     public CommonResult query(HttpServletRequest request){
         String token = request.getHeader("employee-token");
         return userService.findByToken(token);
     }
+
+
 
 
 }
