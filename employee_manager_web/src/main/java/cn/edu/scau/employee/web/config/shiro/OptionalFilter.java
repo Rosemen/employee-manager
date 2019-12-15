@@ -21,11 +21,11 @@ public class OptionalFilter extends AccessControlFilter {
         HttpServletRequest req = WebUtils.toHttp(request);
         HttpServletResponse resp = WebUtils.toHttp(response);
         if (RequestMethod.OPTIONS.name().equals(req.getMethod())) {
-            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_ORIGIN, req.getHeader("Origin"));
+            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_ORIGIN, req.getHeader(HttpConstants.ORIGIN));
             resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_METHODS, req.getMethod());
-            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_HEADERS, req.getHeader("Access-Control-Request-Headers"));
+            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_HEADERS, req.getHeader(HttpConstants.ACCESS_CONTROL_REQUEST_HEADERS));
             resp.setStatus(HttpConstants.SUCCESS);
-            return false;
+            return true;
         }
         return super.preHandle(request, response);
     }
