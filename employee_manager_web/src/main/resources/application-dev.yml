@@ -56,3 +56,4 @@ shiro:
   authc-token: "authcToken"
   permission: "permisssion"
   anon: "anon"
+  optional: "optional"

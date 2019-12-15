@@ -5,9 +5,11 @@ import cn.edu.scau.employee.common.constant.RespConstants;
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +23,10 @@ import java.io.PrintWriter;
 public class PermissionCheckFilter extends PermissionsAuthorizationFilter {
     @Override
     public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws IOException {
+        HttpServletRequest res = (HttpServletRequest) request;
+        if (RequestMethod.OPTIONS.equals(res.getMethod().toUpperCase())) {
+            return true;
+        }
         return SecurityUtils.getSubject().isPermitted(getPathWithinApplication(request));
     }
 

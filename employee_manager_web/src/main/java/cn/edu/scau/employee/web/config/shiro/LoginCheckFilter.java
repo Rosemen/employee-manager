@@ -6,6 +6,7 @@ import cn.edu.scau.employee.dao.repository.TokenRepository;
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletRequest;
@@ -22,9 +23,9 @@ import java.io.PrintWriter;
  */
 public class LoginCheckFilter extends FormAuthenticationFilter {
 
+
     /**
      * 判断请求是否已经登录过，默认shiro会帮我们处理，这里使用自定义token来处理
-     *
      *
      * @param request
      * @param response
@@ -36,8 +37,11 @@ public class LoginCheckFilter extends FormAuthenticationFilter {
         BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
         TokenRepository tokenRepository = factory.getBean(TokenRepository.class);
         HttpServletRequest res = (HttpServletRequest) request;
+        if (RequestMethod.OPTIONS.equals(res.getMethod().toUpperCase())) {
+            return true;
+        }
         String token = res.getHeader(TokenRepository.TOKEN_HEADER_NAME);
-        if (null == token){
+        if (null == token) {
             return false;
         }
         return tokenRepository.checkToken(token);
@@ -53,7 +57,7 @@ public class LoginCheckFilter extends FormAuthenticationFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        CommonResult result = CommonResult.error(RespConstants.FORBIDDEN,RespConstants.NOT_LOGIN);
+        CommonResult result = CommonResult.error(RespConstants.FORBIDDEN, RespConstants.NOT_LOGIN);
         String json = JSON.toJSONString(result);
         HttpServletResponse res = (HttpServletResponse) response;
         res.setCharacterEncoding(RespConstants.CHARACTER_ENCODING);
