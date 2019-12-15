@@ -38,17 +38,17 @@ public class LoginCheckFilter extends FormAuthenticationFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         HttpServletRequest res = (HttpServletRequest) request;
-        if (RequestMethod.OPTIONS.name().equals(res.getMethod().toUpperCase())) {
-            logger.info("=============身份认证: 处理Options请求===========");
-            HttpServletResponse resp = (HttpServletResponse) response;
-            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_ORIGIN,
-                    ((HttpServletRequest) request).getHeader(HttpConstants.ORIGIN));
-            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_HEADERS,
-                    HttpConstants.ACCESS_CONTROL_REQUEST_HEADERS);
-            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_METHODS,CorsConfiguration.ALL);
-            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_CREDENTIALS,"true");
-            return true;
-        }
+//        if (RequestMethod.OPTIONS.name().equals(res.getMethod().toUpperCase())) {
+//            logger.info("=============身份认证: 处理Options请求===========");
+//            HttpServletResponse resp = (HttpServletResponse) response;
+//            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_ORIGIN,
+//                    ((HttpServletRequest) request).getHeader(HttpConstants.ORIGIN));
+//            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_HEADERS,
+//                    HttpConstants.ACCESS_CONTROL_REQUEST_HEADERS);
+//            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_METHODS,CorsConfiguration.ALL);
+//            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_CREDENTIALS,"true");
+//            return true;
+//        }
         BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
         TokenRepository tokenRepository = factory.getBean(TokenRepository.class);
         String token = res.getHeader(TokenRepository.TOKEN_HEADER_NAME);
