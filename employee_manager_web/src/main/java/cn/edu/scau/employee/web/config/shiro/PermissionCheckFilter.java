@@ -36,7 +36,8 @@ public class PermissionCheckFilter extends PermissionsAuthorizationFilter {
             HttpServletResponse resp = (HttpServletResponse) response;
             resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_ORIGIN,
                     ((HttpServletRequest) request).getHeader(HttpConstants.ORIGIN));
-            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_HEADERS, CorsConfiguration.ALL);
+            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_HEADERS,
+                    res.getHeader(HttpConstants.ACCESS_CONTROL_REQUEST_HEADERS));
             resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_METHODS,CorsConfiguration.ALL);
             resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_CREDENTIALS,"true");
             return true;
