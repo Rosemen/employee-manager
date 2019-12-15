@@ -5,6 +5,9 @@ import cn.edu.scau.employee.common.constant.HttpConstants;
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
+import org.apache.tomcat.util.security.PermissionCheck;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
@@ -22,11 +25,13 @@ import java.io.PrintWriter;
  */
 public class PermissionCheckFilter extends PermissionsAuthorizationFilter {
 
+    private static final Logger logger = LoggerFactory.getLogger(PermissionCheckFilter.class);
 
     @Override
     public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws IOException {
         HttpServletRequest res = (HttpServletRequest) request;
-        if (RequestMethod.OPTIONS.name().equals(res.getMethod())){
+        if (RequestMethod.OPTIONS.name().equals(res.getMethod().toUpperCase())) {
+            logger.info("==========当前在校验权限========");
             return true;
         }
         return SecurityUtils.getSubject().isPermitted(getPathWithinApplication(request));

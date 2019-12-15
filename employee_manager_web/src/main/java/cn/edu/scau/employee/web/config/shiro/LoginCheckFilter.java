@@ -5,6 +5,8 @@ import cn.edu.scau.employee.common.constant.HttpConstants;
 import cn.edu.scau.employee.dao.repository.TokenRepository;
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -23,6 +25,8 @@ import java.io.PrintWriter;
  * @date 2019/11/9 17:03
  */
 public class LoginCheckFilter extends FormAuthenticationFilter {
+    private static final Logger logger = LoggerFactory.getLogger(LoginCheckFilter.class);
+
     /**
      * 判断请求是否已经登录过，默认shiro会帮我们处理，这里使用自定义token来处理
      *
@@ -34,8 +38,9 @@ public class LoginCheckFilter extends FormAuthenticationFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         HttpServletRequest res = (HttpServletRequest) request;
-        if (RequestMethod.OPTIONS.name().equals(res.getMethod())){
-           return true;
+        if (RequestMethod.OPTIONS.name().equals(res.getMethod().toUpperCase())) {
+            logger.info("=============当前在身份认证===========");
+            return true;
         }
         BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
         TokenRepository tokenRepository = factory.getBean(TokenRepository.class);
