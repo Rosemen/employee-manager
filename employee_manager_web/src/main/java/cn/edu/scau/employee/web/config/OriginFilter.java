@@ -15,7 +15,7 @@ import java.util.Collections;
  * @Description 跨域请求过滤器
  * @date 2019/12/15 16:09
  */
-@Configuration
+//@Configuration
 public class OriginFilter {
     @Bean
     public FilterRegistrationBean corsFilter(){

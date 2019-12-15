@@ -21,6 +21,8 @@ import java.io.PrintWriter;
  * @date 2019/11/19 17:02
  */
 public class PermissionCheckFilter extends PermissionsAuthorizationFilter {
+
+
     @Override
     public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws IOException {
         return SecurityUtils.getSubject().isPermitted(getPathWithinApplication(request));
