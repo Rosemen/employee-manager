@@ -6,6 +6,7 @@ import cn.edu.scau.employee.dao.repository.TokenRepository;
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletRequest;
@@ -36,9 +37,9 @@ public class LoginCheckFilter extends FormAuthenticationFilter {
         BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
         TokenRepository tokenRepository = factory.getBean(TokenRepository.class);
         HttpServletRequest res = (HttpServletRequest) request;
-//        if (RequestMethod.OPTIONS.equals(res.getMethod().toUpperCase())) {
-//            return true;
-//        }
+        if (RequestMethod.OPTIONS.name().equals(res.getMethod().toUpperCase())) {
+            return true;
+        }
         String token = res.getHeader(TokenRepository.TOKEN_HEADER_NAME);
         if (null == token) {
             return false;

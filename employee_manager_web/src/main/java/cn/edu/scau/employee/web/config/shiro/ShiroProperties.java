@@ -32,6 +32,4 @@ public class ShiroProperties {
 
     private String permission;
 
-    private String optional;
-
 }
