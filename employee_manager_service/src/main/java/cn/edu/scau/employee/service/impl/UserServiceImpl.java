@@ -7,7 +7,7 @@ import cn.edu.scau.employee.common.entity.Department;
 import cn.edu.scau.employee.common.entity.Role;
 import cn.edu.scau.employee.common.entity.User;
 import cn.edu.scau.employee.common.constant.CommonResult;
-import cn.edu.scau.employee.common.constant.RespConstants;
+import cn.edu.scau.employee.common.constant.HttpConstants;
 import cn.edu.scau.employee.common.utils.*;
 import cn.edu.scau.employee.dao.mapper.DepartmentMapper;
 import cn.edu.scau.employee.dao.mapper.RoleMapper;
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
     public CommonResult findByUserName(String username) {
         logger.info("==========UserServiceImpl.findByUserName===========");
         User user = userMapper.selectByUsername(username);
-        return new CommonResult(RespConstants.SUCCESS, RespConstants.SUCCESS_MSG, user);
+        return new CommonResult(HttpConstants.SUCCESS, HttpConstants.SUCCESS_MSG, user);
     }
 
     @Override

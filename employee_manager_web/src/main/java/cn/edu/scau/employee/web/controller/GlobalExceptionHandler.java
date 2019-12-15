@@ -1,7 +1,7 @@
 package cn.edu.scau.employee.web.controller;
 
 import cn.edu.scau.employee.common.constant.CommonResult;
-import cn.edu.scau.employee.common.constant.RespConstants;
+import cn.edu.scau.employee.common.constant.HttpConstants;
 import org.apache.shiro.authc.CredentialsException;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
@@ -24,19 +24,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = {UnauthenticatedException.class, CredentialsException.class})
     public CommonResult loginHandler(Exception ex){
-       logger.error(RespConstants.LOGIN_FAILURE,ex);
-       return CommonResult.error(RespConstants.LOGIN_FAILURE);
+       logger.error(HttpConstants.LOGIN_FAILURE,ex);
+       return CommonResult.error(HttpConstants.LOGIN_FAILURE);
     }
 
     @ExceptionHandler(value = {AuthorizationException.class})
     public CommonResult permissionHandler(Exception ex){
-        logger.error(RespConstants.NO_PERMISSION,ex);
-        return CommonResult.error(RespConstants.FORBIDDEN,RespConstants.NO_PERMISSION);
+        logger.error(HttpConstants.NO_PERMISSION,ex);
+        return CommonResult.error(HttpConstants.FORBIDDEN, HttpConstants.NO_PERMISSION);
     }
 
     @ExceptionHandler(value = {Exception.class})
     public CommonResult errorHandler(Exception ex){
-        logger.error(RespConstants.ERROR_MSG,ex);
-        return CommonResult.error(RespConstants.ERROR_MSG);
+        logger.error(HttpConstants.ERROR_MSG,ex);
+        return CommonResult.error(HttpConstants.ERROR_MSG);
     }
 }

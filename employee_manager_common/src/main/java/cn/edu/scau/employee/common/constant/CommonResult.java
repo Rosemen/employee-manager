@@ -31,8 +31,8 @@ public class CommonResult {
 
     public static CommonResult success() {
         CommonResult result = new CommonResult();
-        result.setStatus(RespConstants.SUCCESS);
-        result.setMsg(RespConstants.SUCCESS_MSG);
+        result.setStatus(HttpConstants.SUCCESS);
+        result.setMsg(HttpConstants.SUCCESS_MSG);
         return result;
     }
 
@@ -44,7 +44,7 @@ public class CommonResult {
 
     public static CommonResult error(String msg) {
         CommonResult result = new CommonResult();
-        result.setStatus(RespConstants.ERROR);
+        result.setStatus(HttpConstants.ERROR);
         result.setMsg(msg);
         return result;
     }

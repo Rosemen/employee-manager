@@ -47,6 +47,7 @@ public class ShiroConfig {
         ShiroProperties properties = properties();
         Map<String, Filter> filterMap = new LinkedHashMap<>();
         //使用自定义filter,验证不通过返回json数据
+        filterMap.put(properties.getOptional(), new OptionalFilter());
         filterMap.put(properties.getAuthcToken(), new LoginCheckFilter());
         filterMap.put(properties.getPermission(), new PermissionCheckFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
@@ -54,13 +55,14 @@ public class ShiroConfig {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put(properties.getIndexUrl(), properties.getAnon());
         filterChainDefinitionMap.put(properties.getLoginUrl(), properties.getAnon());
-        filterChainDefinitionMap.put(properties.getLogoutUrl(), properties.getAuthcToken());
+        filterChainDefinitionMap.put(properties.getLogoutUrl(),
+                properties.getOptional() + "," + properties.getAuthcToken());
         filterChainDefinitionMap.put(properties.getSwaggerUiUrl(), properties.getAnon());
         filterChainDefinitionMap.put(properties.getSwaggerResourceUrl(), properties.getAnon());
         filterChainDefinitionMap.put(properties.getWebjarsUrl(), properties.getAnon());
         filterChainDefinitionMap.put(properties.getApiDocsUrl(), properties.getAnon());
-        filterChainDefinitionMap.put(properties.getAllUrl(), properties.getAuthcToken() +
-                                             "," + properties.getPermission());
+        filterChainDefinitionMap.put(properties.getAllUrl(), properties.getOptional() + "," +
+                properties.getAuthcToken() + "," + properties.getPermission());
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

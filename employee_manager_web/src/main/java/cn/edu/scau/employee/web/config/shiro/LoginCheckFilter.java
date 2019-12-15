@@ -1,12 +1,11 @@
 package cn.edu.scau.employee.web.config.shiro;
 
 import cn.edu.scau.employee.common.constant.CommonResult;
-import cn.edu.scau.employee.common.constant.RespConstants;
+import cn.edu.scau.employee.common.constant.HttpConstants;
 import cn.edu.scau.employee.dao.repository.TokenRepository;
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletRequest;
@@ -37,9 +36,9 @@ public class LoginCheckFilter extends FormAuthenticationFilter {
         BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
         TokenRepository tokenRepository = factory.getBean(TokenRepository.class);
         HttpServletRequest res = (HttpServletRequest) request;
-        if (RequestMethod.OPTIONS.equals(res.getMethod().toUpperCase())) {
-            return true;
-        }
+//        if (RequestMethod.OPTIONS.equals(res.getMethod().toUpperCase())) {
+//            return true;
+//        }
         String token = res.getHeader(TokenRepository.TOKEN_HEADER_NAME);
         if (null == token) {
             return false;
@@ -57,11 +56,11 @@ public class LoginCheckFilter extends FormAuthenticationFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        CommonResult result = CommonResult.error(RespConstants.FORBIDDEN, RespConstants.NOT_LOGIN);
+        CommonResult result = CommonResult.error(HttpConstants.FORBIDDEN, HttpConstants.NOT_LOGIN);
         String json = JSON.toJSONString(result);
         HttpServletResponse res = (HttpServletResponse) response;
-        res.setCharacterEncoding(RespConstants.CHARACTER_ENCODING);
-        res.setContentType(RespConstants.CONTENT_TYPE);
+        res.setCharacterEncoding(HttpConstants.CHARACTER_ENCODING);
+        res.setContentType(HttpConstants.CONTENT_TYPE);
         PrintWriter out = res.getWriter();
         out.println(json);
         out.close();

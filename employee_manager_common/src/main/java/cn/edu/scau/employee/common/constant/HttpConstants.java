@@ -6,7 +6,7 @@ package cn.edu.scau.employee.common.constant;
  * @author chen.jiale
  * @date 2019/11/11 16:38
  */
-public class RespConstants {
+public class HttpConstants {
     /**
      * 成功状态码
      */
@@ -56,4 +56,19 @@ public class RespConstants {
      * 没有权限
      */
     public static final String NO_PERMISSION = "没有权限访问";
+
+    /**
+     * 响应头
+     */
+    public static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-control-Allow-Origin";
+
+    /**
+     * 响应头
+     */
+    public static final String ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods";
+
+    /**
+     * 响应头
+     */
+    public static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
 }
