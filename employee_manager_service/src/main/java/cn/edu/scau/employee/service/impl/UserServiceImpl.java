@@ -3,14 +3,12 @@ package cn.edu.scau.employee.service.impl;
 import cn.edu.scau.employee.common.constant.Constants;
 import cn.edu.scau.employee.common.constant.PageCommonResult;
 import cn.edu.scau.employee.common.dto.*;
+import cn.edu.scau.employee.common.entity.Department;
 import cn.edu.scau.employee.common.entity.Role;
 import cn.edu.scau.employee.common.entity.User;
 import cn.edu.scau.employee.common.constant.CommonResult;
 import cn.edu.scau.employee.common.constant.RespConstants;
-import cn.edu.scau.employee.common.utils.EncryptUtil;
-import cn.edu.scau.employee.common.utils.ExcelUtil;
-import cn.edu.scau.employee.common.utils.JsonUtil;
-import cn.edu.scau.employee.common.utils.TokenUtil;
+import cn.edu.scau.employee.common.utils.*;
 import cn.edu.scau.employee.dao.mapper.DepartmentMapper;
 import cn.edu.scau.employee.dao.mapper.RoleMapper;
 import cn.edu.scau.employee.dao.mapper.UserMapper;
@@ -176,10 +174,14 @@ public class UserServiceImpl implements UserService {
         User user = (User) JsonUtil.convertToObj(userInfo, User.class);
         BeanUtils.copyProperties(user, userResultDto);
         Role role = roleMapper.selectById(user.getRoleId());
-        if (null != role) {
+        if (!ObjectUtil.isEmpty(role)) {
             userResultDto.setRole(role.getName());
         }
-        return CommonResult.success(user);
+        Department department = departmentMapper.selectById(user.getDeptId());
+        if (!ObjectUtil.isEmpty(department)){
+            userResultDto.setDept(department.getName());
+        }
+        return CommonResult.success(userResultDto);
     }
 
     private Consumer<List<UserExcelDto>> batchInsert() {
@@ -191,7 +193,7 @@ public class UserServiceImpl implements UserService {
                     user.setHiredate(DateUtils.parseDate(userExcelDto.getHiredate()));
                     user.setBirthday(DateUtils.parseDate(userExcelDto.getBirthday()));
                     user.setPassword(EncryptUtil.getEncryptedPassword(user.getUsername()));
-                    user.setRoleId(2);
+                    user.setRoleId(Constants.EMPLOYEE_CODE);
                     userMapper.insert(user);
                 }
             } catch (Exception ex) {
