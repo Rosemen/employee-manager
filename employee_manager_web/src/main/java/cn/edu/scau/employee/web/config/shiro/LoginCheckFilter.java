@@ -37,9 +37,6 @@ public class LoginCheckFilter extends FormAuthenticationFilter {
         BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
         TokenRepository tokenRepository = factory.getBean(TokenRepository.class);
         HttpServletRequest res = (HttpServletRequest) request;
-        if (RequestMethod.OPTIONS.name().equals(res.getMethod().toUpperCase())) {
-            return true;
-        }
         String token = res.getHeader(TokenRepository.TOKEN_HEADER_NAME);
         if (null == token) {
             return false;
