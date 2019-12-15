@@ -23,18 +23,19 @@ import java.io.PrintWriter;
  * @date 2019/11/9 17:03
  */
 public class LoginCheckFilter extends FormAuthenticationFilter {
-//    @Override
-//    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
-//        HttpServletRequest res = (HttpServletRequest) request;
-//        HttpServletResponse resp = (HttpServletResponse) response;
-//        if (RequestMethod.OPTIONS.name().equals(res.getMethod().toUpperCase())){
-//            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_ORIGIN, CorsConfiguration.ALL);
-//            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_METHODS,CorsConfiguration.ALL);
-//            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_ORIGIN,HttpConstants.ORIGIN);
-//            return true;
-//        }
-//        return super.preHandle(request, response);
-//    }
+    @Override
+    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+        HttpServletRequest res = (HttpServletRequest) request;
+        HttpServletResponse resp = (HttpServletResponse) response;
+        if (RequestMethod.OPTIONS.name().equals(res.getMethod())){
+            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_ORIGIN, CorsConfiguration.ALL);
+            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_METHODS,CorsConfiguration.ALL);
+            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_ORIGIN,HttpConstants.ORIGIN);
+            resp.setStatus(HttpConstants.SUCCESS);
+            return false;
+        }
+        return super.preHandle(request, response);
+    }
 
     /**
      * 判断请求是否已经登录过，默认shiro会帮我们处理，这里使用自定义token来处理
