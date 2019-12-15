@@ -25,6 +25,10 @@ public class PermissionCheckFilter extends PermissionsAuthorizationFilter {
 
     @Override
     public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws IOException {
+        HttpServletRequest res = (HttpServletRequest) request;
+        if (RequestMethod.OPTIONS.name().equals(res.getMethod())){
+            return true;
+        }
         return SecurityUtils.getSubject().isPermitted(getPathWithinApplication(request));
     }
 

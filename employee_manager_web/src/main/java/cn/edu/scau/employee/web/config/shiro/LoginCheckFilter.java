@@ -23,20 +23,6 @@ import java.io.PrintWriter;
  * @date 2019/11/9 17:03
  */
 public class LoginCheckFilter extends FormAuthenticationFilter {
-    @Override
-    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
-        HttpServletRequest res = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
-        if (RequestMethod.OPTIONS.name().equals(res.getMethod())){
-            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_ORIGIN, CorsConfiguration.ALL);
-            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_METHODS,CorsConfiguration.ALL);
-            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_ORIGIN,HttpConstants.ORIGIN);
-            resp.setStatus(HttpConstants.SUCCESS);
-            return false;
-        }
-        return super.preHandle(request, response);
-    }
-
     /**
      * 判断请求是否已经登录过，默认shiro会帮我们处理，这里使用自定义token来处理
      *
@@ -47,9 +33,12 @@ public class LoginCheckFilter extends FormAuthenticationFilter {
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        HttpServletRequest res = (HttpServletRequest) request;
+        if (RequestMethod.OPTIONS.name().equals(res.getMethod())){
+           return true;
+        }
         BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
         TokenRepository tokenRepository = factory.getBean(TokenRepository.class);
-        HttpServletRequest res = (HttpServletRequest) request;
         String token = res.getHeader(TokenRepository.TOKEN_HEADER_NAME);
         if (null == token) {
             return false;
