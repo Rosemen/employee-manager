@@ -38,6 +38,7 @@ public class LoginCheckFilter extends FormAuthenticationFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         HttpServletRequest res = (HttpServletRequest) request;
+        logger.info("===============当前请求类型："+RequestMethod.OPTIONS.name());
         if (RequestMethod.OPTIONS.name().equals(res.getMethod().toUpperCase())) {
             logger.info("=============当前在身份认证===========");
             return true;
