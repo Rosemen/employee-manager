@@ -71,4 +71,14 @@ public class HttpConstants {
      * 响应头
      */
     public static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
+
+    /**
+     * 请求头
+     */
+    public static final String ORIGIN = "Origin";
+
+    /**
+     * 请求头
+     */
+    public static final String ACCESS_CONTROL_REQUEST_HEADERS = "Access-Control-Request-Headers";
 }
