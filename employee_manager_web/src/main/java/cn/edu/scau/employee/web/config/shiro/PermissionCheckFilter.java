@@ -32,12 +32,13 @@ public class PermissionCheckFilter extends PermissionsAuthorizationFilter {
     public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws IOException {
         HttpServletRequest res = (HttpServletRequest) request;
         if (RequestMethod.OPTIONS.name().equals(res.getMethod().toUpperCase())) {
-            logger.info("==========当前在校验权限========");
+            logger.info("==========校验权限: 处理Options请求========");
             HttpServletResponse resp = (HttpServletResponse) response;
             resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_ORIGIN,
                     ((HttpServletRequest) request).getHeader(HttpConstants.ORIGIN));
             resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_HEADERS, CorsConfiguration.ALL);
             resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_METHODS,CorsConfiguration.ALL);
+            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_CREDENTIALS,"true");
             return true;
         }
         return SecurityUtils.getSubject().isPermitted(getPathWithinApplication(request));

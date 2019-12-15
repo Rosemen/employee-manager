@@ -73,6 +73,11 @@ public class HttpConstants {
     public static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
 
     /**
+     * 响应头
+     */
+    public static final String ACCESS_CONTROL_ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials";
+
+    /**
      * 请求头
      */
     public static final String ORIGIN = "Origin";
@@ -81,4 +86,5 @@ public class HttpConstants {
      * 请求头
      */
     public static final String ACCESS_CONTROL_REQUEST_HEADERS = "Access-Control-Request-Headers";
+
 }

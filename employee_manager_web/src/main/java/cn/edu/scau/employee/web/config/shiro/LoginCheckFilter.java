@@ -45,6 +45,7 @@ public class LoginCheckFilter extends FormAuthenticationFilter {
                     ((HttpServletRequest) request).getHeader(HttpConstants.ORIGIN));
             resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_HEADERS,CorsConfiguration.ALL);
             resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_METHODS,CorsConfiguration.ALL);
+            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_CREDENTIALS,"true");
             return true;
         }
 
