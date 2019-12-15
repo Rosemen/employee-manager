@@ -49,7 +49,6 @@ public class LoginCheckFilter extends FormAuthenticationFilter {
             resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_CREDENTIALS,"true");
             return true;
         }
-
         BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
         TokenRepository tokenRepository = factory.getBean(TokenRepository.class);
         String token = res.getHeader(TokenRepository.TOKEN_HEADER_NAME);

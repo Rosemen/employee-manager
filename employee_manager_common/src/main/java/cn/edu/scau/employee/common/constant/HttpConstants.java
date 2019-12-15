@@ -85,6 +85,6 @@ public class HttpConstants {
     /**
      * 请求头
      */
-    public static final String ACCESS_CONTROL_REQUEST_HEADERS = "Access-Control-Request-Headers";
+    public static final String ACCESS_CONTROL_REQUEST_HEADERS = "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With,employee_token";
 
 }
