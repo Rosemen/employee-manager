@@ -9,6 +9,7 @@ import org.apache.tomcat.util.security.PermissionCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.cors.CorsConfiguration;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -32,6 +33,11 @@ public class PermissionCheckFilter extends PermissionsAuthorizationFilter {
         HttpServletRequest res = (HttpServletRequest) request;
         if (RequestMethod.OPTIONS.name().equals(res.getMethod().toUpperCase())) {
             logger.info("==========当前在校验权限========");
+            HttpServletResponse resp = (HttpServletResponse) response;
+            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_ORIGIN,
+                    ((HttpServletRequest) request).getHeader(HttpConstants.ORIGIN));
+            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_HEADERS, CorsConfiguration.ALL);
+            resp.setHeader(HttpConstants.ACCESS_CONTROL_ALLOW_METHODS,CorsConfiguration.ALL);
             return true;
         }
         return SecurityUtils.getSubject().isPermitted(getPathWithinApplication(request));
