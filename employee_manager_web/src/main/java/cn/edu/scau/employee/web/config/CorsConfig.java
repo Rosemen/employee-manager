@@ -2,6 +2,7 @@ package cn.edu.scau.employee.web.config;
 
 import cn.edu.scau.employee.common.constant.HttpConstants;
 import cn.edu.scau.employee.common.utils.TokenUtil;
+import cn.edu.scau.employee.dao.repository.TokenRepository;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +12,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @author chen.jiale
@@ -28,7 +32,7 @@ public class CorsConfig {
         corsConfiguration.setAllowedOrigins(Collections.singletonList(CorsConfiguration.ALL));
         corsConfiguration.setAllowedHeaders(Collections.singletonList(CorsConfiguration.ALL));
         corsConfiguration.setAllowedMethods(Collections.singletonList(CorsConfiguration.ALL));
-        corsConfiguration.addExposedHeader("Authorization");
+        corsConfiguration.addExposedHeader(TokenRepository.TOKEN_HEADER_NAME);
         source.registerCorsConfiguration("/**", corsConfiguration);
         FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
