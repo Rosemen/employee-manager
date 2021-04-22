@@ -31,7 +31,7 @@
         <mybatis.version>2.1.0</mybatis.version>
         <pageHelper.version>1.2.12</pageHelper.version>
         <redis.version>2.2.0.RELEASE</redis.version>
-        <shiro.version>1.4.1</shiro.version>
+        <shiro.version>1.7.0</shiro.version>
         <json.version>1.2.62</json.version>
         <jwt.version>3.8.3</jwt.version>
         <common-lang.version>3.9</common-lang.version>
