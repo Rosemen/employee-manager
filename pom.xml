@@ -32,7 +32,7 @@
         <pageHelper.version>1.2.12</pageHelper.version>
         <redis.version>2.2.0.RELEASE</redis.version>
         <shiro.version>1.4.1</shiro.version>
-        <json.version>1.2.62</json.version>
+        <json.version>1.2.83</json.version>
         <jwt.version>3.8.3</jwt.version>
         <common-lang.version>3.9</common-lang.version>
         <excel.version>2.0.5</excel.version>
